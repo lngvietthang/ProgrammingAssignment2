@@ -34,7 +34,18 @@ cacheSolve <- function(x, ...) {
     }
     
     matrix <- x$get()
-    invert <- solve(matrix)
+#     invert <- solve(matrix)
+    invert <- tryCatch({
+        solve(matrix)    
+    }, warning = function(war) {
+        print (paste("WARNING: ", war))
+        return(NA)
+    }, error = function(err) {
+        print (paste("ERROR: ", err))
+        return(NA)
+    }, finally = {
+        
+    })
     x$setinvert(invert)
     invert
     
